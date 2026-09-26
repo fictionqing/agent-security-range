@@ -1,0 +1,7 @@
+[
+  { "name": "Alice Chen", "email": "alice@lab.local", "role": "researcher" },
+  { "name": "Bob Lee", "email": "bob@lab.local", "role": "engineer" },
+  { "name": "Carol Wang", "email": "carol@lab.local", "role": "pm" },
+  { "name": "HR Desk", "email": "hr@lab.local", "role": "hr" },
+  { "name": "User", "email": "user@lab.local", "role": "owner" }
+]

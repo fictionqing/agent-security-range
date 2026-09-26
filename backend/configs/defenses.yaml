@@ -1,0 +1,42 @@
+defenses:
+  - id: def-baseline
+    name: Baseline (No Defense)
+    layer: input
+    enabled: true
+    description: 无额外防护，作为对照基线。
+    status: ready
+
+  - id: def-input-filter
+    name: Input Guard
+    layer: input
+    enabled: true
+    description: 对工具观测（邮件/文档）做注入模式过滤，模型看不到隐藏指令。
+    status: ready
+
+  - id: def-tool-filter
+    name: Tool Permission Guard
+    layer: tool
+    enabled: true
+    description: 拦截发往非 lab.local 收件人或附带 confidential 附件的 email.send。
+    status: ready
+
+  - id: def-memory-guard
+    name: Memory Isolation
+    layer: memory
+    enabled: true
+    description: 不可信观测不写入 working memory，后续步只能看到元数据。
+    status: ready
+
+  - id: def-output-filter
+    name: Output Guard
+    layer: output
+    enabled: true
+    description: 最终回复前扫描并遮盖密钥/敏感片段。不拦截工具调用（对本攻击面较弱）。
+    status: ready
+
+  - id: def-combined
+    name: Combined Defense
+    layer: output
+    enabled: true
+    description: Input + Tool + Memory + Output 同时开启，用于对照 ablation。
+    status: ready

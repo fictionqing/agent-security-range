@@ -1,0 +1,52 @@
+[
+  {
+    "id": "agent-qwen3-8b",
+    "name": "Qwen3-8B",
+    "family": "Qwen",
+    "provider": "vLLM / Local",
+    "version": "3.0",
+    "params": "8B",
+    "status": "ready",
+    "description": "实验室默认被测 Agent，支持 tool-calling 与多轮规划。"
+  },
+  {
+    "id": "agent-llama31-8b",
+    "name": "Llama-3.1-8B",
+    "family": "Llama",
+    "provider": "vLLM / Local",
+    "version": "3.1",
+    "params": "8B",
+    "status": "ready",
+    "description": "对比基线模型，用于 Prompt Injection 与工具滥用对照实验。"
+  },
+  {
+    "id": "agent-deepseek-7b",
+    "name": "DeepSeek-7B",
+    "family": "DeepSeek",
+    "provider": "vLLM / Local",
+    "version": "7B",
+    "params": "7B",
+    "status": "busy",
+    "description": "当前有运行中实验占用，适合做工具选择偏差分析。"
+  },
+  {
+    "id": "agent-openai-gpt",
+    "name": "OpenAI GPT Adapter",
+    "family": "OpenAI",
+    "provider": "API",
+    "version": "adapter",
+    "params": "—",
+    "status": "offline",
+    "description": "远端 API Adapter 占位，后续接入真实密钥后启用。"
+  },
+  {
+    "id": "agent-custom-lab",
+    "name": "Lab Custom Agent",
+    "family": "Custom",
+    "provider": "In-house",
+    "version": "0.1",
+    "params": "—",
+    "status": "ready",
+    "description": "自研 Agent Adapter，便于接入实验室内部 Planner / Memory 实现。"
+  }
+]

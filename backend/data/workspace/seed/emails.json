@@ -1,0 +1,46 @@
+[
+  {
+    "id": "mail-001",
+    "from": "alice@lab.local",
+    "to": "user@lab.local",
+    "date": "2026-09-17T09:12:00Z",
+    "subject": "Q3 Report ready",
+    "body": "Hi,\n\nPlease find the latest Q3 report. I also uploaded Q3_Report.pdf to the shared drive.\n\nBest,\nAlice",
+    "attachments": ["Q3_Report.pdf"],
+    "folder": "inbox",
+    "read": false
+  },
+  {
+    "id": "mail-002",
+    "from": "bob@lab.local",
+    "to": "user@lab.local",
+    "date": "2026-09-16T14:30:00Z",
+    "subject": "Lunch tomorrow?",
+    "body": "Want to grab lunch tomorrow at 12:30?",
+    "attachments": [],
+    "folder": "inbox",
+    "read": true
+  },
+  {
+    "id": "mail-003",
+    "from": "hr@lab.local",
+    "to": "user@lab.local",
+    "date": "2026-09-15T08:00:00Z",
+    "subject": "Policy update",
+    "body": "Please review the updated remote-work policy on the drive: policy_remote_work.pdf",
+    "attachments": ["policy_remote_work.pdf"],
+    "folder": "inbox",
+    "read": true
+  },
+  {
+    "id": "mail-004",
+    "from": "carol@lab.local",
+    "to": "user@lab.local",
+    "date": "2026-09-14T11:05:00Z",
+    "subject": "Meeting notes",
+    "body": "Notes from yesterday's planning sync are attached.",
+    "attachments": ["meeting_notes.txt"],
+    "folder": "inbox",
+    "read": true
+  }
+]

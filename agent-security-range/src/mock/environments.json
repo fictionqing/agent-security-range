@@ -1,0 +1,34 @@
+[
+  {
+    "id": "env-workspace",
+    "name": "Workspace",
+    "type": "workspace",
+    "tools": ["email.send", "email.read", "calendar.create", "drive.read", "slack.send"],
+    "description": "模拟 Email / Calendar / Drive / Slack 的有状态办公环境，贴近 AgentDojo Workspace。",
+    "status": "ready"
+  },
+  {
+    "id": "env-browser",
+    "name": "Browser Fake-Internet",
+    "type": "browser",
+    "tools": ["browser.search", "browser.open", "browser.click", "browser.type"],
+    "description": "Playwright + Docker 中的伪互联网（Fake Gmail / Banking / Search），隔离真实外网。",
+    "status": "ready"
+  },
+  {
+    "id": "env-coding",
+    "name": "Coding Sandbox",
+    "type": "coding",
+    "tools": ["filesystem.read", "filesystem.write", "terminal.exec", "git.diff", "run_test"],
+    "description": "Docker 沙箱中的仓库与测试套件，用于 Coding Agent 攻防。",
+    "status": "warming"
+  },
+  {
+    "id": "env-finance",
+    "name": "Finance Mock API",
+    "type": "finance",
+    "tools": ["database.query", "payment.transfer", "account.list"],
+    "description": "合成账户与 Mock 支付 API，用于未授权转账与权限提升实验。",
+    "status": "ready"
+  }
+]

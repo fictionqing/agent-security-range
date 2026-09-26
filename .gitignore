@@ -1,0 +1,70 @@
+# --- Python ---
+**/__pycache__/
+**/*.py[cod]
+**/*.egg-info/
+.venv/
+venv/
+backend/.venv/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / Next.js ---
+node_modules/
+.next/
+out/
+build/
+.turbo/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+
+# --- Env / secrets ---
+.env
+.env.*
+!.env.example
+**/.env.local
+**/*.pem
+**/credentials*.json
+**/secrets*
+
+# --- Local tooling (portable Node, etc.) ---
+.tools/
+
+# --- Model weights (live under /root/models or HF cache; never commit) ---
+**/models/**/*.safetensors
+**/models/**/*.bin
+**/models/**/*.gguf
+**/models/**/*.pt
+**/models/**/*.pth
+**/models/**/*.onnx
+**/*.safetensors
+**/*.gguf
+.cache/
+huggingface/
+modelscope/
+
+# --- Runtime experiment artifacts (keep .gitkeep) ---
+backend/data/experiments/*
+!backend/data/experiments/.gitkeep
+backend/data/workspace/emails/
+backend/data/workspace/documents/
+backend/scripts/*_report.json
+backend/scripts/architecture_verify_report.json
+backend/scripts/qwen3_8b_e2e_report.json
+backend/scripts/pip_*.log
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Logs / tmp ---
+*.log
+tmp/
+temp/
+.cursor/

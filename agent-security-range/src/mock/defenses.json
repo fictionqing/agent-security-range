@@ -1,0 +1,37 @@
+[
+  {
+    "id": "def-baseline",
+    "name": "Baseline (No Defense)",
+    "layer": "input",
+    "enabled": true,
+    "description": "无额外防护，作为对照基线。"
+  },
+  {
+    "id": "def-input-filter",
+    "name": "Input Guard",
+    "layer": "input",
+    "enabled": true,
+    "description": "对用户输入与观测文本做注入模式过滤。"
+  },
+  {
+    "id": "def-tool-filter",
+    "name": "Tool Permission Guard",
+    "layer": "tool",
+    "enabled": true,
+    "description": "按风险等级限制工具调用，并对高危参数做校验。"
+  },
+  {
+    "id": "def-memory-guard",
+    "name": "Memory Isolation",
+    "layer": "memory",
+    "enabled": false,
+    "description": "隔离不可信观测写入长期记忆，降低记忆投毒影响。"
+  },
+  {
+    "id": "def-output-filter",
+    "name": "Output Guard",
+    "layer": "output",
+    "enabled": false,
+    "description": "在最终回复前扫描敏感信息泄露。"
+  }
+]

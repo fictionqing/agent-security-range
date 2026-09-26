@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 222 47% 6%;
+  --foreground: 210 40% 96%;
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 96%;
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 96%;
+  --primary: 199 89% 48%;
+  --primary-foreground: 222 47% 6%;
+  --secondary: 217 28% 14%;
+  --secondary-foreground: 210 40% 96%;
+  --muted: 217 28% 12%;
+  --muted-foreground: 215 16% 62%;
+  --accent: 199 70% 18%;
+  --accent-foreground: 199 89% 72%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 210 40% 98%;
+  --success: 142 71% 45%;
+  --success-foreground: 144 70% 10%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 32 95% 12%;
+  --border: 217 25% 16%;
+  --input: 217 25% 16%;
+  --ring: 199 89% 48%;
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, hsl(199 80% 20% / 0.18), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, hsl(222 60% 18% / 0.35), transparent 50%),
+    hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(217 20% 24%);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

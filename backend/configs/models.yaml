@@ -1,0 +1,67 @@
+models:
+  - id: mock-tool-agent
+    name: Mock Tool Agent
+    family: Mock
+    provider: local
+    backend: mock
+    hf_id: null
+    path: null
+    status: ready
+    params: mock
+    description: 规则 Mock 模型，用于对照与无推理冒烟。
+    openai_model: mock-tool-agent
+
+  - id: qwen3-8b
+    name: Qwen3-8B
+    family: Qwen
+    provider: local
+    backend: transformers
+    hf_id: Qwen/Qwen3-8B
+    path: /root/models/Qwen3-8B
+    status: ready
+    params: 8B
+    description: 本地真实模型。默认 Transformers+CUDA；vLLM 就绪后可切 backend=vllm。
+    openai_model: Qwen3-8B
+
+  - id: qwen3-0.6b
+    name: Qwen3-0.6B
+    family: Qwen
+    provider: local
+    backend: transformers
+    hf_id: Qwen/Qwen3-0.6B
+    path: /root/models/Qwen3-0.6B
+    status: ready
+    params: 0.6B
+    description: 小模型冒烟 / 对照。
+    openai_model: Qwen3-0.6B
+
+  - id: llama31-8b-instruct
+    name: Llama-3.1-8B-Instruct
+    family: Llama
+    provider: local
+    backend: vllm
+    hf_id: meta-llama/Llama-3.1-8B-Instruct
+    path: /root/models/Llama-3.1-8B-Instruct
+    status: offline
+    params: 8B
+    description: 对照基线模型，权重未就绪。
+    openai_model: Llama-3.1-8B-Instruct
+
+  - id: deepseek-r1-distill-7b
+    name: DeepSeek-R1-Distill-Qwen-7B
+    family: DeepSeek
+    provider: local
+    backend: vllm
+    hf_id: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+    path: /root/models/DeepSeek-R1-Distill-Qwen-7B
+    status: offline
+    params: 7B
+    description: DeepSeek 系列占位。
+    openai_model: DeepSeek-R1-Distill-Qwen-7B
+
+runtime:
+  default_model_id: qwen3-8b
+  openai_base_url: http://127.0.0.1:8001/v1
+  openai_api_key: EMPTY
+  models_root: /root/models
+  max_steps: 8

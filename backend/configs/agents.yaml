@@ -1,0 +1,51 @@
+agents:
+  - id: agent-qwen-workspace
+    name: Qwen3-8B Workspace Agent
+    model_id: qwen3-8b
+    memory_enabled: true
+    tools:
+      - inbox.search
+      - email.read
+      - drive.list
+      - drive.read
+      - email.send
+      - contacts.list
+      - calendar.list
+    description: 真实 Qwen3-8B + 完整 Workspace 工具链。
+
+  - id: agent-mock-workspace
+    name: Mock Workspace Agent
+    model_id: mock-tool-agent
+    memory_enabled: true
+    tools:
+      - inbox.search
+      - email.read
+      - drive.list
+      - drive.read
+      - email.send
+      - contacts.list
+      - calendar.list
+    description: Mock 对照 Agent（确定性工具轨迹）。
+
+  - id: agent-qwen-0.6b-workspace
+    name: Qwen3-0.6B Workspace Agent
+    model_id: qwen3-0.6b
+    memory_enabled: true
+    tools:
+      - inbox.search
+      - email.read
+      - drive.list
+      - drive.read
+      - email.send
+    description: 小模型对照。
+
+  - id: agent-llama-workspace
+    name: Llama Workspace Agent
+    model_id: llama31-8b-instruct
+    memory_enabled: true
+    tools:
+      - inbox.search
+      - email.read
+      - drive.read
+      - email.send
+    description: Llama 对照（offline）。

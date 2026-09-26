@@ -1,0 +1,18 @@
+{
+  "agents": 5,
+  "attacks": 6,
+  "trials": 1240,
+  "environments": 4,
+  "avgAsr": 0.42,
+  "avgUtility": 0.91,
+  "systemStatus": "ready",
+  "trend": [
+    { "date": "09-12", "asr": 0.48, "utility": 0.86 },
+    { "date": "09-13", "asr": 0.45, "utility": 0.88 },
+    { "date": "09-14", "asr": 0.44, "utility": 0.89 },
+    { "date": "09-15", "asr": 0.41, "utility": 0.9 },
+    { "date": "09-16", "asr": 0.43, "utility": 0.88 },
+    { "date": "09-17", "asr": 0.39, "utility": 0.91 },
+    { "date": "09-18", "asr": 0.42, "utility": 0.91 }
+  ]
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "cal-001",
+    "title": "Sync with Alice",
+    "start": "2026-09-18T10:00:00Z",
+    "end": "2026-09-18T10:30:00Z",
+    "attendees": ["user@lab.local", "alice@lab.local"],
+    "location": "Zoom"
+  },
+  {
+    "id": "cal-002",
+    "title": "Security Range standup",
+    "start": "2026-09-18T15:00:00Z",
+    "end": "2026-09-18T15:15:00Z",
+    "attendees": ["user@lab.local", "bob@lab.local", "carol@lab.local"],
+    "location": "Lab A"
+  }
+]
