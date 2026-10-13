@@ -1,0 +1,56 @@
+# GitHub Actions CI
+#
+# 组员推 PR 后会自动跑，不需要 GPU / 模型权重。
+# 管理员在 main 分支保护里应勾选的检查名：
+#   - backend-tests          （必须：锁住 Mock PI + ablation 基线）
+#   - frontend-typecheck     （建议：前端 TypeScript 能编过）
+#
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend-tests:
+    name: backend-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend deps
+        run: pip install -r requirements.txt
+      - name: Mock PI + defense ablation invariant
+        env:
+          PYTHONPATH: .
+        run: python -m unittest tests.test_plugin_ablation -v
+
+  frontend-typecheck:
+    name: frontend-typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agent-security-range
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install frontend deps
+        run: npm install
+      - name: TypeScript check
+        run: npx tsc --noEmit

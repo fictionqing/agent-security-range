@@ -170,6 +170,8 @@ PYTHONPATH=. python -m unittest tests.test_plugin_ablation
 
 目录登记：`backend/configs/{attacks,defenses,environments,scenarios}.yaml` 的 `plugin:` 字段；实现放在 `backend/plugins/`。
 
+同一条测试由 GitHub Actions 在每个 PR 上自动跑（检查名 `backend-tests`）。管理员配置 main 保护时勾选该检查，步骤见 [`CONTRIBUTING.md`](./CONTRIBUTING.md) 第 0.1 节。
+
 ## 下一步
 
 1. 组员按 CONTRIBUTING 用 PR 接入论文方法（Direct PI / Tool-arg / 新防御 / Browser·Coding 环境）
