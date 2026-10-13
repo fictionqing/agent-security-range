@@ -9,6 +9,7 @@ attacks:
     objective: utility_only
     scenario_id: workspace_baseline
     status: ready
+    plugin: plugins.attacks.none:NoneAttack
 
   - id: atk-indirect-pi
     name: Indirect Prompt Injection
@@ -20,6 +21,7 @@ attacks:
     objective: data_exfiltration
     scenario_id: workspace_indirect_pi_email
     status: ready
+    plugin: plugins.attacks.indirect_pi:IndirectPromptInjectionAttack
 
   - id: atk-direct-pi
     name: Direct Prompt Injection
@@ -31,6 +33,7 @@ attacks:
     objective: unauthorized_action
     scenario_id: null
     status: offline
+    plugin: plugins.attacks.stubs:DirectPromptInjectionAttack
 
   - id: atk-tool-arg
     name: Tool Argument Manipulation
@@ -42,6 +45,7 @@ attacks:
     objective: privilege_abuse
     scenario_id: null
     status: offline
+    plugin: plugins.attacks.stubs:ToolArgumentManipulationAttack
 
   - id: atk-memory-poison
     name: Memory Poisoning
@@ -53,6 +57,7 @@ attacks:
     objective: goal_hijacking
     scenario_id: null
     status: offline
+    plugin: plugins.attacks.stubs:MemoryPoisoningAttack
 
   - id: atk-malicious-readme
     name: Malicious README
@@ -64,6 +69,7 @@ attacks:
     objective: remote_code_execution
     scenario_id: null
     status: offline
+    plugin: plugins.attacks.stubs:MaliciousReadmeAttack
 
   - id: atk-multistep
     name: Multi-step Cross-tool Attack
@@ -75,3 +81,4 @@ attacks:
     objective: attack_chain
     scenario_id: null
     status: offline
+    plugin: plugins.attacks.stubs:MultiStepAttack

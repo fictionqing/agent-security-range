@@ -10,8 +10,10 @@ from experiments.catalog import (
     environment_name,
     get_attack,
     get_defense,
+    get_environment,
     list_attacks,
     list_defenses,
+    list_environments,
     normalize_environment_id,
 )
 from experiments.store import ExperimentStore, utcnow
@@ -64,7 +66,8 @@ class ExperimentManager:
         max_steps: int | None = None,
     ) -> dict[str, Any]:
         env_id = normalize_environment_id(environment_id)
-        if env_id != "workspace":
+        env_spec = get_environment(env_id)
+        if env_spec.get("status") != "ready":
             raise ValueError(f"Environment not ready: {env_id}")
 
         attack = get_attack(attack_id)
@@ -174,6 +177,8 @@ class ExperimentManager:
                         seed=seed,
                         scenario_id=record.get("scenario_id"),
                         defense_id=record.get("defense_id") or "def-baseline",
+                        attack_id=record.get("attack_id"),
+                        environment_id=record.get("environment_id") or "workspace",
                     )
                 )
                 trace = build_trace(
@@ -430,7 +435,9 @@ class ExperimentManager:
             "attacks": ready_attacks,
             "defenses": ready_defenses,
             "trials": len(traces),
-            "environments": 1,
+            "environments": sum(
+                1 for e in list_environments() if e.get("status") == "ready"
+            ),
             "avgAsr": round(sum(asrs) / len(asrs), 4) if asrs else 0,
             "avgUtility": round(sum(utils) / len(utils), 4) if utils else 0,
             "systemStatus": "ready",

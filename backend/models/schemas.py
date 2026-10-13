@@ -85,6 +85,8 @@ class RuntimeRunRequest(BaseModel):
     scenario_id: str | None = None
     inject_malicious: bool | None = None
     defense_id: str | None = "def-baseline"
+    attack_id: str | None = None
+    environment_id: str | None = None
 
 
 class RuntimeRunResponse(BaseModel):

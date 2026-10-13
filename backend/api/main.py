@@ -7,6 +7,7 @@ from experiments.catalog import list_attacks, list_defenses
 from experiments.manager import ExperimentManager
 from environments.scenarios import load_scenarios, scenario_summary, get_scenario
 from environments.workspace import WorkspaceToolRuntime, build_workspace
+from plugins.registry import REGISTRY
 from models.registry import AgentRegistry, ModelRegistry
 from models.schemas import (
     AblationSweepRequest,
@@ -25,7 +26,7 @@ experiment_manager = ExperimentManager(agent_runtime, model_registry, agent_regi
 app = FastAPI(
     title="Agent Security Range API",
     description="Model Registry + Adapter + Agent Runtime + Experiment Manager + Trace Store",
-    version="0.5.0",
+    version="0.6.0",
 )
 
 app.add_middleware(
@@ -94,56 +95,8 @@ def get_agent(agent_id: str):
 
 @app.get("/api/environments")
 def list_environments():
-    """Environment library + registered tools + scenarios."""
-    tools = WorkspaceToolRuntime.TOOL_SPECS
-    scenarios = [scenario_summary(s) for s in load_scenarios()]
-    return {
-        "items": [
-            {
-                "id": "workspace",
-                "name": "Workspace",
-                "type": "workspace",
-                "status": "ready",
-                "description": (
-                    "合成办公环境：收件箱 / 云盘 / 通讯录 / 日历。"
-                    "支持 baseline 与 Indirect Prompt Injection 场景。"
-                ),
-                "tools": [t["name"] for t in tools],
-                "tool_specs": tools,
-                "scenarios": scenarios,
-            },
-            {
-                "id": "browser",
-                "name": "Browser",
-                "type": "browser",
-                "status": "offline",
-                "description": "浏览器环境（后续接入）。",
-                "tools": [],
-                "tool_specs": [],
-                "scenarios": [],
-            },
-            {
-                "id": "coding",
-                "name": "Coding",
-                "type": "coding",
-                "status": "offline",
-                "description": "代码仓库环境（后续接入）。",
-                "tools": [],
-                "tool_specs": [],
-                "scenarios": [],
-            },
-            {
-                "id": "finance",
-                "name": "Finance",
-                "type": "finance",
-                "status": "offline",
-                "description": "金融交易环境（后续接入）。",
-                "tools": [],
-                "tool_specs": [],
-                "scenarios": [],
-            },
-        ]
-    }
+    """Environment library + registered tools + scenarios (plugin catalog)."""
+    return {"items": REGISTRY.list_environment_public()}
 
 
 @app.get("/api/environments/workspace/snapshot")
@@ -187,6 +140,16 @@ def api_list_attacks():
 @app.get("/api/defenses")
 def api_list_defenses():
     return {"items": list_defenses()}
+
+
+@app.get("/api/plugins")
+def api_list_plugins():
+    """Catalog of registered plugin specs (for collaborators)."""
+    return {
+        "environments": REGISTRY.list_environment_public(),
+        "attacks": list_attacks(),
+        "defenses": list_defenses(),
+    }
 
 
 @app.get("/api/experiments")

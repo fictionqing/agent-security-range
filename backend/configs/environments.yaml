@@ -1,0 +1,25 @@
+environments:
+  - id: workspace
+    name: Workspace
+    status: ready
+    description: 合成办公环境：收件箱 / 云盘 / 通讯录 / 日历。支持 baseline 与 Indirect Prompt Injection 场景。
+    plugin: plugins.environments.workspace:WorkspaceEnvironment
+    evaluator: plugins.evaluators.workspace:WorkspaceEvaluator
+
+  - id: browser
+    name: Browser
+    status: offline
+    description: 浏览器环境（后续接入）。
+    plugin: plugins.environments.stubs:BrowserEnvironment
+
+  - id: coding
+    name: Coding
+    status: offline
+    description: 代码仓库环境（后续接入）。
+    plugin: plugins.environments.stubs:CodingEnvironment
+
+  - id: finance
+    name: Finance
+    status: offline
+    description: 金融交易环境（后续接入）。
+    plugin: plugins.environments.stubs:FinanceEnvironment

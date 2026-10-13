@@ -1,4 +1,4 @@
-"""Attack / Defense catalogs (YAML). Only ready items can be scheduled."""
+"""Attack / Defense / Environment catalogs (YAML). Only ready items can be scheduled."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -8,20 +8,9 @@ import yaml
 
 CONFIGS = Path(__file__).resolve().parents[1] / "configs"
 
-ENV_NAMES = {
-    "workspace": "Workspace",
-    "env-workspace": "Workspace",
-    "browser": "Browser",
-    "coding": "Coding",
-    "finance": "Finance",
-}
-
-ENV_IDS = {
-    "workspace": "workspace",
+# Keep aliases so older clients using env-workspace still resolve.
+ENV_ALIASES = {
     "env-workspace": "workspace",
-    "browser": "browser",
-    "coding": "coding",
-    "finance": "finance",
 }
 
 
@@ -55,11 +44,28 @@ def get_defense(defense_id: str) -> dict[str, Any]:
     raise KeyError(f"Unknown defense: {defense_id}")
 
 
+def list_environments() -> list[dict[str, Any]]:
+    return _load("environments.yaml", "environments")
+
+
+def get_environment(environment_id: str) -> dict[str, Any]:
+    env_id = normalize_environment_id(environment_id)
+    for e in list_environments():
+        if e.get("id") == env_id:
+            return e
+    raise KeyError(f"Unknown environment: {environment_id}")
+
+
 def normalize_environment_id(environment_id: str) -> str:
-    if environment_id not in ENV_IDS:
+    env_id = ENV_ALIASES.get(environment_id, environment_id)
+    known = {e.get("id") for e in list_environments()}
+    if env_id not in known:
         raise KeyError(f"Unknown environment: {environment_id}")
-    return ENV_IDS[environment_id]
+    return env_id
 
 
 def environment_name(environment_id: str) -> str:
-    return ENV_NAMES.get(environment_id, environment_id)
+    try:
+        return str(get_environment(environment_id).get("name") or environment_id)
+    except KeyError:
+        return environment_id
