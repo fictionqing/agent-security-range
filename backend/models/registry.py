@@ -41,18 +41,24 @@ class ModelRegistry:
             return record
 
         path = Path(record.path) if record.path else None
-        weights_present = bool(
-            path
-            and path.exists()
-            and (
-                any(path.glob("model-*.safetensors"))
-                or any(path.glob("*.safetensors"))
-                or (path / "pytorch_model.bin").exists()
-                or (path / "model.safetensors").exists()
-            )
-        )
-        # Also accept incomplete download that at least has config + tokenizer
-        config_present = bool(path and (path / "config.json").exists())
+        try:
+            path_ok = bool(path and path.exists())
+        except OSError:
+            path_ok = False
+        weights_present = False
+        config_present = False
+        if path_ok and path is not None:
+            try:
+                weights_present = bool(
+                    any(path.glob("model-*.safetensors"))
+                    or any(path.glob("*.safetensors"))
+                    or (path / "pytorch_model.bin").exists()
+                    or (path / "model.safetensors").exists()
+                )
+                config_present = (path / "config.json").exists()
+            except OSError:
+                weights_present = False
+                config_present = False
         record.weights_present = weights_present
 
         if record.backend == ModelBackend.transformers:
