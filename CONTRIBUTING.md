@@ -38,27 +38,7 @@ PYTHONPATH=. python -m unittest tests.test_plugin_ablation
 ## 0.1 仓库管理员：CI 与 main 分支保护
 
 组员**不用**自己配置 CI。仓库里已经有 `.github/workflows/ci.yml`，推送到 GitHub 后会自动跑。
-
-**为什么「Require status checks to pass before merging」一开始勾不了？**  
-GitHub 只显示**已经跑过至少一次**的检查名。需要先把本 CI 文件合进 `main` 并等 Actions 跑完，设置页下拉框里才会出现 `backend-tests`。
-
-管理员按这个顺序做：
-
-1. 确认本仓库 **Settings → Actions → General** 允许 GitHub Actions（私有仓默认一般已开；若被禁用，选 “Allow all actions and reusable workflows”）。
-2. 把含 `.github/workflows/ci.yml` 的提交推到 `main`（本指南与 CI 可一起推）。
-3. 打开仓库 **Actions** 页，等工作流 **CI** 变成绿色。
-4. **Settings → Branches → Add branch protection rule**（或 Rulesets）：
-   - Branch name pattern：`main`
-   - 勾选 **Require a pull request before merging**（建议：至少 1 个 approval）
-   - 勾选 **Require status checks to pass before merging**
-   - Search for status checks 里勾选：
-     - **`backend-tests`**（必须）
-     - **`frontend-typecheck`**（建议）
-   - 建议再勾 **Require branches to be up to date before merging**
-   - 建议勾 **Do not allow bypassing the above settings**（连管理员也走 PR；实验室人少时也可先不勾，方便紧急热修）
-5. 保存。此后任何人（含你）都不能直接 `git push origin main`，必须开 PR 且 CI 绿了才能合。
-
-组员侧：PR 页面底部的 **Checks** 变绿才算过；红了点进去看日志，先在本地用上面的 unittest 复现。
+PR 页面底部的 **Checks** 变绿才算过；红了点进去看日志，先在本地用上面的 unittest 复现。
 
 ---
 
