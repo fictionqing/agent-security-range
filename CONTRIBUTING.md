@@ -571,21 +571,7 @@ git push -u origin feat/my-fix
 
 ---
 
-## 13. 推荐的任务切分（组会可直接认领）
-
-| 方向 | 建议起步文件 | 完成标准 |
-|---|---|---|
-| Direct PI | `plugins/attacks/` + `attacks.yaml` | Mock 下攻击成功可复现，baseline 数字不变 |
-| Tool-arg 攻击 | 同上 | 有独立 scenario 与 evaluator 条件 |
-| 论文防御方法 | `plugins/defenses/` + `defenses.yaml` | 能进 ablation 表，并与 combined/baseline 对照 |
-| Browser / Coding 环境 | `plugins/environments/` + evaluator | YAML ready，至少 1 条 scenario，有 utility/ASR |
-| 真实模型复现 | 不改插件，用 GPU 机跑 README 中 Qwen 脚本 | 报告 8B 上的 ASR/Utility，注明 defense_id |
-
-认领后开分支名带上自己的姓名/方法，避免和别人撞车。
-
----
-
-## 14. 需要帮助时
+## 13. 需要帮助时
 
 - 先看 `README.md` 的启动与 ablation 表。
 - 接口看 `backend/plugins/protocols.py`，现成例子看 `plugins/attacks/indirect_pi.py` 和 `plugins/defenses/input_guard.py`。
