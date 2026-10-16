@@ -91,22 +91,31 @@ class ModelRegistry:
 
     def ensure_model_dirs(self) -> dict[str, str]:
         created: dict[str, str] = {}
+        try:
+            self.models_root.mkdir(parents=True, exist_ok=True)
+        except OSError:
+            pass
         for record in self._models.values():
-            if not record.path:
+            if not record.path or record.backend == ModelBackend.mock:
                 continue
             path = Path(record.path)
-            path.mkdir(parents=True, exist_ok=True)
+            try:
+                path.mkdir(parents=True, exist_ok=True)
+            except OSError:
+                continue
             readme = path / "README.md"
-            if not readme.exists():
-                readme.write_text(
-                    f"# {record.name}\n\n"
-                    f"HF: `{record.hf_id}`\n\n"
-                    "Download weights here (no GPU required for download).\n"
-                    "Serve later via vLLM OpenAI-compatible API.\n",
-                    encoding="utf-8",
-                )
+            try:
+                if not readme.exists():
+                    readme.write_text(
+                        f"# {record.name}\n\n"
+                        f"HF: `{record.hf_id}`\n\n"
+                        "Download weights here (no GPU required for download).\n"
+                        "Serve later via vLLM OpenAI-compatible API.\n",
+                        encoding="utf-8",
+                    )
+            except OSError:
+                pass
             created[record.id] = str(path)
-        self.models_root.mkdir(parents=True, exist_ok=True)
         return created
 
 

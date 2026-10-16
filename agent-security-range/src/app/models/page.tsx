@@ -25,7 +25,11 @@ export default function ModelsPage() {
   async function load() {
     setError(null);
     const h = await fetchHealth();
-    setHealth(h ? `API ok · root ${h.models_root}` : `API offline (${API_BASE})`);
+    setHealth(
+      h
+        ? `API ok · root ${h.models_root}`
+        : `API offline (${API_BASE || "/api"})`
+    );
     try {
       const items = await fetchModels();
       setModels(items);

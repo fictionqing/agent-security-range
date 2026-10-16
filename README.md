@@ -2,6 +2,17 @@
 
 实验室智能体攻防靶场。
 
+## 公网访问（当前 Mock 部署）
+
+| 入口 | 地址 |
+|---|---|
+| **前端 UI（推荐）** | http://106.75.37.12:8800 |
+| 经 Nginx（80） | http://106.75.37.12/ |
+| 后端 API（直连） | http://106.75.37.12:8801 |
+| API 文档 | http://106.75.37.12:8800/docs |
+
+当前云主机为**无 GPU**，默认跑 **Mock**（`mock-tool-agent`）。前端 `8800` 经 Next rewrites 转发 `/api` → 本机 `8801`；Nginx 将 `80/443` 反代到 `8800`。部署说明见 [`MIGRATION.md`](./MIGRATION.md)、[`deploy/`](./deploy/)。
+
 ## 当前进度
 
 1. ✅ 前端空壳 UI（Next.js）
@@ -24,11 +35,15 @@
 
 ### 模型目录
 
+无 GPU / Mock 主机默认（见 `backend/configs/models.yaml`）：
+
 ```text
-/root/models/
-├── Qwen3-8B/     # ~16.4 GB，已接入 Runtime
-└── Qwen3-0.6B/   # 对照小模型
+data/models/
+├── Qwen3-8B/     # 占位；有 GPU 时再放权重
+└── Qwen3-0.6B/
 ```
+
+有 GPU 的机器也可改回 `/root/models/` 等路径。
 
 ### 架构路径（当前）
 
@@ -58,54 +73,68 @@ vLLM OpenAI-compatible（`scripts/serve_qwen3_8b.sh`，端口 8001）为可选�
 
 组员如何用 GitHub、如何开分支 / PR、如何接入论文方法：**请先读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)**。
 
-本仓库**不包含**模型权重（默认在机器本地 `/root/models/`，约十几 GB）。协作者可先只跑 Mock，无需 GPU。
+本仓库**不包含**模型权重（路径见 `backend/configs/models.yaml` 的 `models_root`）。协作者可先只跑 Mock，无需 GPU。
 
 ```bash
-git clone <本仓库 URL>
-cd range   # 或仓库目录名
+git clone https://github.com/fictionqing/agent-security-range.git
+cd agent-security-range   # 或本机目录名 range
 
+# 一键 Mock 依赖（Python venv + 前端 build）
+./deploy/install-deps.sh
+
+# 或手工：
 # 后端
 cd backend
-python -m venv .venv && source .venv/bin/activate   # 或使用本机 conda
+python3.11 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-# 可选 GPU：再安装与本机匹配的 torch / transformers
-./run.sh
+./run.sh   # 默认 0.0.0.0:8801 或 127.0.0.1:8801（见 run.sh）
 
 # 前端（另开终端）
 cd ../agent-security-range
 cp .env.example .env.local
 npm install
-npm run dev
+npm run dev   # 0.0.0.0:8800
 ```
 
-真实 Qwen3-8B：自行下载到 `MODELS_ROOT`（见 `backend/configs/models.yaml`），再跑 `scripts/e2e_qwen3_8b.py`。
+无 GPU 生产式 Mock + systemd / Nginx：
+
+```bash
+./deploy/install-deps.sh
+sudo ./deploy/install-systemd.sh   # range-backend :8801 + range-frontend :8800
+sudo ./deploy/install-nginx.sh     # 80/443 → 8800
+```
+
+真实 Qwen3-8B：自行下载到 `models_root`，再跑 `backend/scripts/e2e_qwen3_8b.py`（需 GPU）。
 
 ## 启动
 
 ```bash
-# 后端（需能访问 GPU：在宿主机直接跑，不要用无 GPU 沙箱）
+# 后端（Mock 无需 GPU；真实模型需在有 CUDA 的宿主机跑）
 cd backend
 ./run.sh
-# API: http://127.0.0.1:8000/docs
+# API: http://127.0.0.1:8801/docs （或经前端同源 http://127.0.0.1:8800/docs）
 
 # 前端
 cd agent-security-range
-npm run dev
+npm run dev    # 开发
+# npm run build && npm run start   # 生产（与 systemd 一致）
 ```
+
+公网示例：http://106.75.37.12:8800
 
 ### 试跑 Mock / 场景
 
 ```bash
-# 环境快照
-curl -s 'http://127.0.0.1:8000/api/environments/workspace/snapshot?scenario_id=workspace_baseline' | head
+# 环境快照（经前端反代或直连后端均可）
+curl -s 'http://127.0.0.1:8800/api/environments/workspace/snapshot?scenario_id=workspace_baseline' | head
 
 # Mock baseline
-curl -s -X POST 'http://127.0.0.1:8000/api/runtime/run?scenario_id=workspace_baseline' \
+curl -s -X POST 'http://127.0.0.1:8800/api/runtime/run?scenario_id=workspace_baseline' \
   -H 'Content-Type: application/json' \
   -d '{"agent_id":"agent-mock-workspace","user_task":"帮我找到 Alice 最近发给我的报告。"}'
 
 # Mock Indirect PI
-curl -s -X POST 'http://127.0.0.1:8000/api/runtime/run?scenario_id=workspace_indirect_pi_email' \
+curl -s -X POST 'http://127.0.0.1:8800/api/runtime/run?scenario_id=workspace_indirect_pi_email' \
   -H 'Content-Type: application/json' \
   -d '{"agent_id":"agent-mock-workspace","user_task":"帮我找到 Alice 的报告"}'
 ```
@@ -113,7 +142,7 @@ curl -s -X POST 'http://127.0.0.1:8000/api/runtime/run?scenario_id=workspace_ind
 ### 试跑真实 Qwen
 
 ```bash
-cd /root/range/backend
+cd backend
 PYTHONPATH=. python scripts/e2e_qwen3_8b.py
 ```
 
@@ -122,14 +151,14 @@ UI：`/environments` 看种子快照；`/runtime` 选场景 + Agent 跑 episode�
 ### 批量实验（Mock）
 
 ```bash
-cd /root/range/backend
+cd backend
 PYTHONPATH=. python scripts/run_experiment.py \
   --agent agent-mock-workspace \
   --attack atk-indirect-pi \
   --runs 5
 
 # 或 HTTP
-curl -s -X POST http://127.0.0.1:8000/api/experiments \
+curl -s -X POST http://127.0.0.1:8800/api/experiments \
   -H 'Content-Type: application/json' \
   -d '{"name":"Mock PI sweep","agent_id":"agent-mock-workspace","attack_id":"atk-indirect-pi","runs":5,"start":true}'
 ```
@@ -147,7 +176,7 @@ Traces 目录：`backend/data/experiments/<exp_id>/traces/`。
 | `def-combined` | 四层同时开 | ASR≈0，Utility≈1 |
 
 ```bash
-cd /root/range/backend
+cd backend
 PYTHONPATH=. python scripts/run_defense_ablation.py --runs 3
 ```
 

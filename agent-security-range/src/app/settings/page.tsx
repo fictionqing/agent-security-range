@@ -34,7 +34,7 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
             <div>Status: {health}</div>
-            <div>Endpoint: {API_BASE}</div>
+            <div>Endpoint: {API_BASE || "/api (same origin → 127.0.0.1:8801)"}</div>
             <div>Models root: {modelsRoot}</div>
           </CardContent>
         </Card>

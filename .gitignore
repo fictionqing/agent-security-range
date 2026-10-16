@@ -32,7 +32,7 @@ yarn-error.log*
 # --- Local tooling (portable Node, etc.) ---
 .tools/
 
-# --- Model weights (live under /root/models or HF cache; never commit) ---
+# --- Model weights (live under models_root or HF cache; never commit) ---
 **/models/**/*.safetensors
 **/models/**/*.bin
 **/models/**/*.gguf
@@ -44,6 +44,8 @@ yarn-error.log*
 .cache/
 huggingface/
 modelscope/
+# local Mock host model placeholders (auto-created by API)
+/data/models/
 
 # --- Runtime experiment artifacts (keep .gitkeep) ---
 backend/data/experiments/*
