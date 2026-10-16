@@ -11,7 +11,7 @@
 | 后端 API（直连） | http://106.75.37.12:8801 |
 | API 文档 | http://106.75.37.12:8800/docs |
 
-当前云主机为**无 GPU**，默认跑 **Mock**（`mock-tool-agent`）。前端 `8800` 经 Next rewrites 转发 `/api` → 本机 `8801`；Nginx 将 `80/443` 反代到 `8800`。部署说明见 [`MIGRATION.md`](./MIGRATION.md)、[`deploy/`](./deploy/)。
+当前云主机为**无 GPU**，默认跑 **Mock**（`mock-tool-agent`）。前端 `8800` 经 Next rewrites 转发 `/api` → 本机 `8801`；Nginx 将 `80/443` 反代到 `8800`。
 
 ## 当前进度
 
